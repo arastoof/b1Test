@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Set instruction audio path (assuming it was saved)
             // Note: You might need to add `instructionFile` to the saved data in tester.js
             // For now, let's construct it.
-            instructionAudio.src = `https://student.csc.liv.ac.uk/~sgmarast/b1Test/instructionAudio/${selectedAnswer.questionType}.mp3`;
+            instructionAudio.src = `b1Test/instructionAudio/${selectedAnswer.questionType}.mp3`;
             instructionAudio.load();
 
             // --- Handle question-specific assets ---
