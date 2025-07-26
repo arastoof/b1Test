@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B1 English Test Practice</title>
+    <link rel="stylesheet" href="css/testStyle.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+</head>
+<body>
+    <div class="test-container">
+        <div id="start-screen">
+            <h1>B1 English Test Practice</h1>
+            <p>Click the button below to begin the test.</p>
+            <button id="start-btn">Start Test</button>
+        </div>
+
+        <div id="test-screen" class="hidden">
+            <h2 id="task-title"></h2>
+            
+            <div id="question-area">
+                </div>
+
+            <div id="status-container">
+                <div id="playback-status-box" class="status-box hidden">
+                    <p>Status: <span id="playback-status">Playing</span></p>
+                    <div class="volume-control">
+                        <label for="volume">Volume</label>
+                        <input type="range" id="volume" name="volume" min="0" max="1" step="0.1" value="0.8">
+                    </div>
+                    <progress id="playback-progress" value="70" max="100"></progress>
+                </div>
+
+                <div id="recording-status-box" class="status-box">
+                    <h3>Recorded Answer</h3>
+                    <p>Current Status: <span id="recording-status">Waiting</span></p>
+                    <progress id="recording-progress" value="0" max="100"></progress>
+                </div>
+            </div>
+
+            <div class="footer-controls">
+                <button id="finish-btn" class="hidden">Finish</button>
+                <button id="next-btn" class="hidden">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/tester.js" type="module"></script>
+</body>
+</html>

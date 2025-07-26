@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviewer Page</title>
+    <link rel="stylesheet" href="css/reviewerStyle.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+</head>
+<body>
+    <h1>Test Reviewer</h1>
+
+    <div class="container">
+        <div class="session-list">
+            <h2>Test Sessions</h2>
+            <ul id="sessions-container">
+                </ul>
+        </div>
+
+        <div class="answer-list hidden" id="answer-list-section">
+            <h2>Answers for Session: <span id="current-session-id"></span></h2>
+            <ul id="answers-container">
+                </ul>
+        </div>
+
+        <div class="answer-detail hidden" id="answer-detail-section">
+            <h2>Answer Details</h2>
+            <div id="instruction-section">
+                <label>Instructions:</label>
+                <audio controls id="instruction-audio" type="audio/mpeg"></audio>
+            </div>
+            <div>
+                <label>Question Type:</label>
+                <span id="detail-question-type"></span>
+            </div>
+            <div class="story-section hidden" id="story-detail-section">
+                <div>
+                    <label>Story Prompt:</label>
+                    <p id="detail-story-prompt"></p>
+                </div>
+                <div id="story-asset-container">
+                    <label>Story Asset:</label>
+                </div>
+            </div>
+            <div>
+                <label>Question Prompt:</label>
+                <p id="detail-question-prompt"></p>
+            </div>
+            <div id="question-asset-container">
+                <label>Question Asset:</label>
+            </div>
+            <div>
+                <label>Recorded Answer:</label>
+                <audio controls id="detail-answer-audio"></audio>
+            </div>
+            <div>
+                <label>Timestamp:</label>
+                <span id="detail-timestamp"></span>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/reviewer.js" type="module"></script>
+</body>
+</html>
