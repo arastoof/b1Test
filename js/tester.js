@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let timerInterval;
 
     // --- Constants ---
-    const baseStaticFolder = 'https://student.csc.liv.ac.uk/~sgmarast/b1Test';
+    const baseStaticFolder = '';
     const baseJsonFolder = 'assetsJson';
     const questionAudioFolder = `${baseStaticFolder}/questionAudio`;
     const instructionAudioFolder = `${baseStaticFolder}/instructionAudio`;
