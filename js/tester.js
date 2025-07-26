@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let allQuestions = {};
     let sessionId = null;
     let timerInterval;
+    let activeAudio = null;
 
     // --- Constants ---
     const baseStaticFolder = '/b1Test';
@@ -264,28 +265,68 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
     function playAudio(audioSrc, onEndedCallback, noBeepAfter = false, isInstruction = false) {
+        // 1. Stop any audio that is currently playing to prevent conflicts
+        if (activeAudio) {
+            activeAudio.pause();
+            activeAudio.src = ''; // Detach the source to stop loading
+            activeAudio.onended = null;
+            activeAudio.ontimeupdate = null;
+        }
+
+        // 2. Configure UI elements
         if (!isInstruction) {
             playbackStatusBox.classList.remove('hidden');
             playbackStatus.textContent = "Playing...";
+            playbackProgress.value = 0; // Reset progress bar
         } else {
             playbackStatusBox.classList.add('hidden');
         }
-        const audio = new Audio(audioSrc);
-        audio.volume = volumeSlider.value;
-        volumeSlider.oninput = () => audio.volume = volumeSlider.value;
-        audio.ontimeupdate = () => {
-            if (!isInstruction) {
-                playbackProgress.value = (audio.currentTime / audio.duration) * 100;
+
+        // 3. Create and track the new audio object
+        activeAudio = new Audio(audioSrc);
+        activeAudio.volume = volumeSlider.value;
+        volumeSlider.oninput = () => {
+            if (activeAudio) activeAudio.volume = activeAudio.volume;
+        };
+
+        // 4. Update progress bar safely
+        activeAudio.ontimeupdate = () => {
+            if (!isInstruction && activeAudio && activeAudio.duration) {
+                if (isFinite(activeAudio.duration)) {
+                    playbackProgress.value = (activeAudio.currentTime / activeAudio.duration) * 100;
+                }
             }
         };
-        audio.play().catch(e => console.error("Audio play failed:", e));
-        audio.onended = () => {
+
+        // 5. Define what happens when audio finishes
+        activeAudio.onended = () => {
             if (!isInstruction) playbackStatus.textContent = "Finished";
-            if (noBeepAfter) return onEndedCallback();
-            const beep = new Audio(`${instructionAudioFolder}/beep.mp3`);
-            beep.play();
-            beep.onended = onEndedCallback;
+
+            // If no beep is needed, just run the callback
+            if (noBeepAfter) {
+                activeAudio = null; // Clear the active audio
+                if (onEndedCallback) onEndedCallback();
+                return;
+            }
+
+            // Otherwise, play the beep using the same audio element
+            activeAudio.src = `${instructionAudioFolder}/beep.mp3`;
+            activeAudio.onended = () => { // When the beep finishes...
+                activeAudio = null;      // ...clear the active audio
+                if (onEndedCallback) onEndedCallback(); // ...and run the callback
+            };
+            activeAudio.play().catch(e => {
+                console.error("Beep playback failed:", e);
+                if (onEndedCallback) onEndedCallback(); // Still run callback on failure
+            });
         };
+
+        // 6. Play the main audio file
+        activeAudio.play().catch(e => {
+            if (e.name !== 'AbortError') {
+            console.error(`Audio play failed for ${audioSrc}:`, e);
+            }
+        });
     }
     function startTimer(duration, statusText, onTimerEndCallback) {
         let timeLeft = duration;
