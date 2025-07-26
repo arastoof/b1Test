@@ -211,7 +211,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         try {
             await addAnswer(answerData);
-            console.log('Answer saved successfully to IndexedDB');
             recordingStatus.textContent = "Saved.";
         } catch (err) {
             console.error('Failed to save answer:', err);

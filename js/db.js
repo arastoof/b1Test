@@ -58,27 +58,31 @@ export async function getAnswersForSession(sessionId) {
 }
 
 export async function getAllSessions() {
-    const db = await openDB();
-    return new Promise((resolve, reject) => {
-        const transaction = db.transaction(STORE_NAME, 'readonly');
-        const store = transaction.objectStore(STORE_NAME);
-        const request = store.getAll();
+	const db = await openDB();
+	return new Promise((resolve, reject) => {
+		const transaction = db.transaction(STORE_NAME, 'readonly');
+		const store = transaction.objectStore(STORE_NAME);
+		const request = store.getAll();
 
-        request.onsuccess = () => {
-            // Use a Set to get unique session IDs
-            const sessions = new Map();
-            request.result.forEach(answer => {
-                if (!sessions.has(answer.sessionId)) {
-                    sessions.set(answer.sessionId, {
-                        id: answer.sessionId,
-                        // Use the timestamp of the first answer as the session start time
-                        startTime: new Date(answer.timestamp).toLocaleString()
-                    });
-                }
-            });
-            // Convert Map values to an array
-            resolve(Array.from(sessions.values()));
-        };
-        request.onerror = () => reject(request.error);
-    });
+		request.onsuccess = () => {
+			const sessions = new Map();
+			request.result.forEach(answer => {
+				if (!sessions.has(answer.sessionId)) {
+					sessions.set(answer.sessionId, {
+						id: answer.sessionId,
+						startTime: new Date(answer.timestamp).toLocaleString(),
+						timestamp: new Date(answer.timestamp).getTime() // Store raw timestamp for sorting
+					});
+				}
+			});
+
+			// Convert Map to an array
+			const sessionArray = Array.from(sessions.values());
+
+			sessionArray.sort((a, b) => b.timestamp - a.timestamp);
+
+			resolve(sessionArray);
+		};
+		request.onerror = () => reject(request.error);
+	});
 }
