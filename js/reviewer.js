@@ -95,14 +95,12 @@ document.addEventListener('DOMContentLoaded', () => {
             detailQuestionPrompt.textContent = selectedAnswer.questionPrompt;
             detailTimestamp.textContent = new Date(selectedAnswer.timestamp).toLocaleString();
             
-            // --- CRITICAL: Create a URL for the recorded audio Blob ---
+            // --- Create a URL for the recorded audio Blob ---
             const recordedAudioUrl = URL.createObjectURL(selectedAnswer.answerAudioBlob);
             detailAnswerAudio.src = recordedAudioUrl;
             detailAnswerAudio.load();
 
-            // Set instruction audio path (assuming it was saved)
-            // Note: You might need to add `instructionFile` to the saved data in tester.js
-            // For now, let's construct it.
+            // Set instruction audio path
             instructionAudio.src = `b1Test/instructionAudio/${selectedAnswer.questionType}.mp3`;
             instructionAudio.load();
 
