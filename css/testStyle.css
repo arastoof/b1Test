@@ -19,7 +19,7 @@ body {
     border-top: 5px solid #007bff;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: hidden; 
 }
 
 #test-screen {
@@ -59,8 +59,8 @@ body {
     min-height: 0; 
     margin-bottom: 30px;
     display: flex; 
-    align-items: center;
-    justify-content: center; 
+    align-items: center; 
+    justify-content: flex-start; 
 }
 
 #question-area ol {
@@ -73,12 +73,11 @@ body {
     max-height: 100%; 
     height: auto;
     display: block;
-    margin: 0 auto;
+    margin: 0 auto; 
     border: 1px solid #ddd;
     border-radius: 4px;
-    object-fit: contain;
+    object-fit: contain; 
 }
-
 
 .describe-image-layout {
     display: flex;
@@ -98,7 +97,7 @@ body {
 
 .describe-image-layout .image-wrapper img {
     max-width: 100%;
-    max-height: 100%;
+    max-height: 100%; 
     object-fit: contain;
 }
 
@@ -107,6 +106,9 @@ body {
     padding: 10px;
     background-color: #f9f9f9;
     border-radius: 5px;
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
 }
 
 #status-container {

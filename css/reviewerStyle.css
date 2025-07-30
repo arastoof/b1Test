@@ -9,6 +9,10 @@ h1, h2 {
     color: #0056b3;
 }
 
+.warning {
+    color: red;
+}
+
 .container {
     display: flex;
     gap: 20px;
